@@ -4,7 +4,7 @@ locals {
 
   app_name = "rdb-loader-snowflake"
   # TODO: Change once 5.7.0 is published
-  app_version = "5.7.0-rc3"
+  app_version = "5.7.0-rc4"
 
   local_tags = {
     Name           = var.name
