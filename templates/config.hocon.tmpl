@@ -2,6 +2,8 @@
   # Azure Blob Storage endpoint, should contain container with transformer's output
   "blobStorageEndpoint": "https://${storage_account_name}.blob.core.windows.net/${storage_container_name_for_transformer_output}/",
 
+  "azureVaultName": "${azure_vault_name}"
+  
   # Kafka topic used by Transformer and Loader to communicate
   "messageQueue": {
     "type": "kafka",
@@ -25,7 +27,12 @@
     # DB user with permissions to load data
     "username": "${sf_username}",
     # DB password
-    "password": "${sf_password}",
+    "password": {
+      # A password can be placed in Azure Key Vault or be a plain text
+      "secretStore": {
+        "parameterName": "${sf_password_parameter_name}"
+      }
+    }
     # Snowflake account
     "account": "${sf_account}",
     # A warehouse to use for loading

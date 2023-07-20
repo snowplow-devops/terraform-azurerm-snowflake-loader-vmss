@@ -62,6 +62,16 @@ variable "queue_topic_name" {
   type        = string
 }
 
+variable "azure_vault_name" {
+  description = "Vault name" 
+  type        = string
+}
+
+variable "sf_password_parameter_name" {
+  description = "Vault parameter name" 
+  type        = string
+}
+
 variable "queue_topic_connection_string" {
   description = "The connection string to use for reading from the queue topic"
   type        = string

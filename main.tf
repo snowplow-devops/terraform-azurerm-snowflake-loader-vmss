@@ -243,6 +243,8 @@ locals {
     queue_topic_connection_string = var.queue_topic_connection_string
     queue_group_id                = azurerm_eventhub_consumer_group.queue_topic.name
 
+    azure_vault_name = var.azure_vault_name
+    sf_password_parameter_name = var.sf_password_parameter_name
     eh_namespace_broker = var.eh_namespace_broker
 
     sf_username               = var.snowflake_loader_user
