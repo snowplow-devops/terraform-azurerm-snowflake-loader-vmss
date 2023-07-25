@@ -22,7 +22,7 @@ For details on what information is collected please see this module: https://git
 
 ```hcl
 module "sf_loader_service" {
-  source = "snowplow-devops/snowflake-loader-event-hub-vmss/azurerm"
+  source = "snowplow-devops/snowflake-loader-vmss/azurerm"
   version = "0.1.0"
 
   name                = var.name
