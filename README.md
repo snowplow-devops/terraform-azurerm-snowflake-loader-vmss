@@ -21,7 +21,32 @@ For details on what information is collected please see this module: https://git
 ## Usage
 
 ```hcl
-INSERT USAGE EXAMPLE HERE
+module "sf_loader_service" {
+  source = "snowplow-devops/snowflake-loader-event-hub-vmss/azurerm"
+  version = "0.1.0"
+
+  name                = var.name
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.subnet_id
+
+  queue_topic_name              = var.queue_event_hub_name
+  queue_topic_connection_string = var.queue_event_hub_read_only_primary_connection_string
+  eh_namespace_name             = var.eh_namespace_name
+  eh_namespace_broker           = var.eh_namespace_broker
+
+  storage_account_name                          = var.storage_account_name
+  storage_container_name_for_transformer_output = var.storage_container_name
+
+  snowflake_loader_user = var.snowflake_loader_user
+  snowflake_password    = var.snowflake_loader_password
+  snowflake_warehouse   = var.snowflake_warehouse
+  snowflake_database    = var.snowflake_database
+  snowflake_schema      = var.snowflake_schema
+  snowflake_region      = var.snowflake_region
+  snowflake_account     = var.snowflake_account
+
+  ssh_public_key = var.ssh_public_key
+}
 ```
 
 ## Requirements
