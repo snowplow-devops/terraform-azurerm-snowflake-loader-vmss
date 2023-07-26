@@ -155,9 +155,7 @@ module "sf_loader_service" {
 | Name | Description |
 |------|-------------|
 | <a name="output_nsg_id"></a> [nsg\_id](#output\_nsg\_id) | ID of the network security group attached to the Loader Server nodes |
-| <a name="output_user_data"></a> [user\_data](#output\_user\_data) | n/a |
 | <a name="output_vmss_id"></a> [vmss\_id](#output\_vmss\_id) | ID of the VM scale-set |
-
 
 # Copyright and license
 
