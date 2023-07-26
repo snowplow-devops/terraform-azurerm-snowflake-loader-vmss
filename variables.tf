@@ -14,7 +14,6 @@ variable "app_version" {
   default     = "5.7.0"
 }
 
-
 variable "subnet_id" {
   description = "The subnet id to deploy the service into"
   type        = string
