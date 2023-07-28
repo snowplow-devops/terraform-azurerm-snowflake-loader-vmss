@@ -16,7 +16,7 @@ locals {
 
   ssh_public_key = "PUBLIC_KEY"
 
-  user_provided_id = "transformer-module-example@snowplow.io"
+  user_provided_id = "snowflake-loader-module-example@snowplow.io"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -35,7 +35,8 @@ module "eh_namespace" {
 }
 
 module "enriched_event_hub" {
-  source = "snowplow-devops/event-hub/azurerm"
+  source  = "snowplow-devops/event-hub/azurerm"
+  version = "0.1.1"
 
   name                = "${local.name}-enriched-topic"
   namespace_name      = module.eh_namespace.name
@@ -84,9 +85,8 @@ resource "azurerm_virtual_network" "vnet" {
 }
 
 module "transformer" {
-  # TODO: uncomment when released
-  # source = "snowplow-devops/transformer-event-hub-vmss/azurerm"
-  source = "git::https://github.com/snowplow-devops/terraform-azurerm-transformer-event-hub-vmss.git?ref=release/0.1.0"
+  source  = "snowplow-devops/transformer-event-hub-vmss/azurerm"
+  version = "0.1.0"
 
   name                = "${local.name}-transformer"
   resource_group_name = azurerm_resource_group.rg.name
@@ -109,9 +109,10 @@ module "transformer" {
 
   ssh_public_key = local.ssh_public_key
 
+  user_provided_id = local.user_provided_id
+
   depends_on = [azurerm_resource_group.rg, module.storage_container, module.storage_account]
 }
-
 
 module "sf_loader" {
   source = "../.."
