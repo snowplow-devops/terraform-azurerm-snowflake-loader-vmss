@@ -1,6 +1,6 @@
 locals {
   module_name    = "snowflake-loader-vmss"
-  module_version = "0.1.0"
+  module_version = "0.1.1"
 
   app_name = "rdb-loader-snowflake"
 
