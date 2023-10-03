@@ -28,10 +28,10 @@ module "sf_loader_service" {
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_id
 
-  queue_topic_name              = var.queue_event_hub_name
-  queue_topic_connection_string = var.queue_event_hub_read_only_primary_connection_string
-  eh_namespace_name             = var.eh_namespace_name
-  eh_namespace_broker           = var.eh_namespace_broker
+  queue_topic_name           = var.queue_event_hub_name
+  queue_topic_kafka_password = var.queue_event_hub_read_only_primary_connection_string
+  eh_namespace_name          = var.eh_namespace_name
+  kafka_brokers              = var.kafka_brokers
 
   storage_account_name                          = var.storage_account_name
   storage_container_name_for_transformer_output = var.storage_container_name
@@ -97,10 +97,9 @@ module "sf_loader_service" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_eh_namespace_broker"></a> [eh\_namespace\_broker](#input\_eh\_namespace\_broker) | The broker to configure for access to the Event Hubs namespace | `string` | n/a | yes |
-| <a name="input_eh_namespace_name"></a> [eh\_namespace\_name](#input\_eh\_namespace\_name) | The name of the Event Hubs namespace | `string` | n/a | yes |
+| <a name="input_kafka_brokers"></a> [kafka\_brokers](#input\_kafka\_brokers) | The brokers to configure for access to the Kafka Cluster (note: as default the EventHubs namespace broker) | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | A name which will be pre-pended to the resources created | `string` | n/a | yes |
-| <a name="input_queue_topic_connection_string"></a> [queue\_topic\_connection\_string](#input\_queue\_topic\_connection\_string) | The connection string to use for reading from the queue topic | `string` | n/a | yes |
+| <a name="input_queue_topic_kafka_password"></a> [queue\_topic\_kafka\_password](#input\_queue\_topic\_kafka\_password) | Password for connection to Kafka cluster under PlainLoginModule (note: as default the EventHubs topic connection string for reading is expected) | `string` | n/a | yes |
 | <a name="input_queue_topic_name"></a> [queue\_topic\_name](#input\_queue\_topic\_name) | The name of the queue Event Hubs topic that the loader will read messages from | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group to deploy the service into | `string` | n/a | yes |
 | <a name="input_snowflake_account"></a> [snowflake\_account](#input\_snowflake\_account) | Snowflake account | `string` | n/a | yes |
@@ -118,6 +117,7 @@ module "sf_loader_service" {
 | <a name="input_associate_public_ip_address"></a> [associate\_public\_ip\_address](#input\_associate\_public\_ip\_address) | Whether to assign a public ip address to this instance | `bool` | `true` | no |
 | <a name="input_custom_iglu_resolvers"></a> [custom\_iglu\_resolvers](#input\_custom\_iglu\_resolvers) | The custom Iglu Resolvers that will be used by Stream Shredder | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_default_iglu_resolvers"></a> [default\_iglu\_resolvers](#input\_default\_iglu\_resolvers) | The default Iglu Resolvers that will be used by Stream Shredder | <pre>list(object({<br>    name            = string<br>    priority        = number<br>    uri             = string<br>    api_key         = string<br>    vendor_prefixes = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central",<br>    "priority": 10,<br>    "uri": "http://iglucentral.com",<br>    "vendor_prefixes": []<br>  },<br>  {<br>    "api_key": "",<br>    "name": "Iglu Central - Mirror 01",<br>    "priority": 20,<br>    "uri": "http://mirror01.iglucentral.com",<br>    "vendor_prefixes": []<br>  }<br>]</pre> | no |
+| <a name="input_eh_namespace_name"></a> [eh\_namespace\_name](#input\_eh\_namespace\_name) | The name of the Event Hubs namespace (note: if you are not using EventHubs leave this blank) | `string` | `""` | no |
 | <a name="input_folder_monitoring_enabled"></a> [folder\_monitoring\_enabled](#input\_folder\_monitoring\_enabled) | Whether folder monitoring should be activated or not | `bool` | `false` | no |
 | <a name="input_folder_monitoring_period"></a> [folder\_monitoring\_period](#input\_folder\_monitoring\_period) | How often to folder should be checked by folder monitoring | `string` | `"8 hours"` | no |
 | <a name="input_folder_monitoring_since"></a> [folder\_monitoring\_since](#input\_folder\_monitoring\_since) | Specifies since when folder monitoring will check | `string` | `"14 days"` | no |
@@ -126,6 +126,7 @@ module "sf_loader_service" {
 | <a name="input_health_check_freq"></a> [health\_check\_freq](#input\_health\_check\_freq) | Frequency of health check | `string` | `"1 hour"` | no |
 | <a name="input_health_check_timeout"></a> [health\_check\_timeout](#input\_health\_check\_timeout) | How long to wait for a response for health check query | `string` | `"1 min"` | no |
 | <a name="input_java_opts"></a> [java\_opts](#input\_java\_opts) | Custom JAVA Options | `string` | `"-XX:InitialRAMPercentage=75 -XX:MaxRAMPercentage=75"` | no |
+| <a name="input_queue_topic_kafka_username"></a> [queue\_topic\_kafka\_username](#input\_queue\_topic\_kafka\_username) | Username for connection to Kafka cluster under PlainLoginModule (default: '$ConnectionString' which is used for EventHubs) | `string` | `"$ConnectionString"` | no |
 | <a name="input_retry_period"></a> [retry\_period](#input\_retry\_period) | How often batch of failed folders should be pulled into a discovery queue | `string` | `"10 min"` | no |
 | <a name="input_retry_queue_enabled"></a> [retry\_queue\_enabled](#input\_retry\_queue\_enabled) | Whether retry queue should be enabled or not | `bool` | `false` | no |
 | <a name="input_retry_queue_interval"></a> [retry\_queue\_interval](#input\_retry\_queue\_interval) | Artificial pause after each failed folder being added to the queue | `string` | `"10 min"` | no |

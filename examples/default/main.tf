@@ -86,7 +86,7 @@ resource "azurerm_virtual_network" "vnet" {
 
 module "transformer" {
   source  = "snowplow-devops/transformer-event-hub-vmss/azurerm"
-  version = "0.1.0"
+  version = "0.2.0"
 
   name                = "${local.name}-transformer"
   resource_group_name = azurerm_resource_group.rg.name
@@ -94,12 +94,12 @@ module "transformer" {
 
   app_version = local.app_version
 
-  enriched_topic_name              = module.enriched_event_hub.name
-  enriched_topic_connection_string = module.enriched_event_hub.read_only_primary_connection_string
-  queue_topic_name                 = module.queue_event_hub.name
-  queue_topic_connection_string    = module.queue_event_hub.read_write_primary_connection_string
-  eh_namespace_name                = module.eh_namespace.name
-  eh_namespace_broker              = module.eh_namespace.broker
+  enriched_topic_name           = module.enriched_event_hub.name
+  enriched_topic_kafka_password = module.enriched_event_hub.read_only_primary_connection_string
+  queue_topic_name              = module.queue_event_hub.name
+  queue_topic_kafka_password    = module.queue_event_hub.read_write_primary_connection_string
+  eh_namespace_name             = module.eh_namespace.name
+  kafka_brokers                 = module.eh_namespace.broker
 
   storage_account_name   = module.storage_account.name
   storage_container_name = module.storage_container.name
@@ -123,10 +123,10 @@ module "sf_loader" {
 
   app_version = local.app_version
 
-  queue_topic_name              = module.queue_event_hub.name
-  queue_topic_connection_string = module.queue_event_hub.read_only_primary_connection_string
-  eh_namespace_name             = module.eh_namespace.name
-  eh_namespace_broker           = module.eh_namespace.broker
+  queue_topic_name           = module.queue_event_hub.name
+  queue_topic_kafka_password = module.queue_event_hub.read_only_primary_connection_string
+  eh_namespace_name          = module.eh_namespace.name
+  kafka_brokers              = module.eh_namespace.broker
 
   storage_account_name                          = module.storage_account.name
   storage_container_name_for_transformer_output = module.storage_container.name
