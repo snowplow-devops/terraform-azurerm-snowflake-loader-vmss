@@ -185,6 +185,8 @@ resource "azurerm_role_assignment" "staging_blob_contributor_app_ra" {
 # --- EventHubs: Consumer Groups
 
 resource "azurerm_eventhub_consumer_group" "queue_topic" {
+  count = var.eh_namespace_name != "" ? 1 : 0
+
   name = var.name
 
   namespace_name      = var.eh_namespace_name
@@ -239,11 +241,12 @@ locals {
     storage_account_name                          = var.storage_account_name
     storage_container_name_for_transformer_output = var.storage_container_name_for_transformer_output
 
-    queue_topic_name              = var.queue_topic_name
-    queue_topic_connection_string = var.queue_topic_connection_string
-    queue_group_id                = azurerm_eventhub_consumer_group.queue_topic.name
+    queue_topic_name           = var.queue_topic_name
+    queue_topic_kafka_username = var.queue_topic_kafka_username
+    queue_topic_kafka_password = var.queue_topic_kafka_password
+    queue_group_id             = coalesce(join("", azurerm_eventhub_consumer_group.queue_topic.*.name), var.name)
 
-    eh_namespace_broker = var.eh_namespace_broker
+    kafka_brokers = var.kafka_brokers
 
     sf_username               = var.snowflake_loader_user
     sf_password               = var.snowflake_password
