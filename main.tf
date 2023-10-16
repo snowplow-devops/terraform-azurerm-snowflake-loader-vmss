@@ -2,7 +2,7 @@ locals {
   module_name_suffix = var.kafka_source == "azure_event_hubs" ? "" : ":${var.kafka_source}"
 
   module_name    = "snowflake-loader-vmss${local.module_name_suffix}"
-  module_version = "0.2.0"
+  module_version = "0.2.1"
 
   app_name = "rdb-loader-snowflake"
 
