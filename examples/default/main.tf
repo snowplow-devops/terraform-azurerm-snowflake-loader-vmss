@@ -2,7 +2,7 @@ locals {
   name                 = "snowflake-loader-test"
   storage_account_name = "sfloadertestsa"
 
-  app_version = "5.7.0"
+  app_version = "5.7.5"
 
   window_period_min = 1
 
