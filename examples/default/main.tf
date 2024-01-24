@@ -86,7 +86,9 @@ resource "azurerm_virtual_network" "vnet" {
 
 module "transformer" {
   source  = "snowplow-devops/transformer-event-hub-vmss/azurerm"
-  version = "0.2.0"
+  version = "0.3.0"
+
+  accept_limited_use_license = true
 
   name                = "${local.name}-transformer"
   resource_group_name = azurerm_resource_group.rg.name
@@ -116,6 +118,8 @@ module "transformer" {
 
 module "sf_loader" {
   source = "../.."
+
+  accept_limited_use_license = true
 
   name                = "${local.name}-snowflake-loader"
   resource_group_name = azurerm_resource_group.rg.name
